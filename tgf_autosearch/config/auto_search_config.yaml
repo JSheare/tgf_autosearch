@@ -1,0 +1,123 @@
+# Application Options
+log_level: WARNING
+lag_by_days: 2
+
+# Search Options
+default_export_loc: &default_export_loc "~"
+searches:
+    FRANCE:
+        "1":
+            import_loc: /media/david/AllDetectorData/Detectors/FRANCE/Data
+            export_loc: *default_export_loc
+            before_date: "999999"
+            after_date: "000000"
+            options: []
+    
+    GODOT:
+        "1":
+            import_loc: /media/david/AllDetectorData/Detectors/GODOT/Data
+            export_loc: *default_export_loc
+            before_date: "999999"
+            after_date: "000000"
+            options: []
+    
+    MINITHOR1:
+        "1":
+            import_loc: /media/david/AllDetectorData/Detectors/MINITHOR1/Data
+            export_loc: *default_export_loc
+            before_date: "999999"
+            after_date: "000000"
+            options: []
+    
+    ISRAEL:
+        "1":
+            import_loc: /media/david/AllDetectorData/Detectors/ISRAEL/Data
+            export_loc: *default_export_loc
+            before_date: "999999"
+            after_date: "000000"
+            options: []
+    
+    SANTIS:
+        "1":
+            import_loc: /media/david/AllDetectorData/Detectors/SANTIS/Data
+            export_loc: *default_export_loc
+            before_date: "211203"
+            after_date: "000000"
+            options: []
+    
+    SPLIT:
+        "1":
+            import_loc: /media/david/AllDetectorData/Detectors/SPLIT/Data
+            export_loc: *default_export_loc
+            before_date: "999999"
+            after_date: "211203"
+            options: []
+    
+    THOR1:
+        "1":
+            import_loc: /media/david/AllDetectorData/Detectors/THOR/THOR1/Data
+            export_loc: *default_export_loc
+            before_date: "220830"
+            after_date: "000000"
+            options: []
+        "2":
+            import_loc: /media/david/AllDetectorData/Detectors/THOR/THOR1/Data
+            export_loc: *default_export_loc
+            before_date: "230209"
+            after_date: "220830"
+            options: ["--aircraft"]
+        "3":
+            import_loc: /media/david/AllDetectorData/Detectors/THOR/THOR1/Data
+            export_loc: *default_export_loc
+            before_date: "999999"
+            after_date: "230209"
+            options: []
+            
+    THOR2:
+        "1":
+            import_loc: /media/david/AllDetectorData/Detectors/THOR/THOR2/Data
+            export_loc: *default_export_loc
+            before_date: "999999"
+            after_date: "000000"
+            options: []
+
+    THOR3:
+        "1":
+            import_loc: /media/david/AllDetectorData/Detectors/THOR/THOR3/Data
+            export_loc: *default_export_loc
+            before_date: "999999"
+            after_date: "000000"
+            options: []
+            
+    THOR4:
+        "1":
+            import_loc: /media/david/AllDetectorData/Detectors/THOR/THOR4/Data
+            export_loc: *default_export_loc
+            before_date: "999999"
+            after_date: "000000"
+            options: []
+
+    THOR5:
+        "1":
+            import_loc: /media/david/AllDetectorData/Detectors/THOR/THOR5/Data
+            export_loc: *default_export_loc
+            before_date: "999999"
+            after_date: "000000"
+            options: []
+
+    THOR6:
+        "1":
+            import_loc: /media/david/AllDetectorData/Detectors/THOR/THOR6/Data
+            export_loc: *default_export_loc
+            before_date: "999999"
+            after_date: "000000"
+            options: []
+    
+    TRIGGER:
+        "1":
+            import_loc: /media/david/AllDetectorData/Detectors/TRIGGER/Data
+            export_loc: *default_export_loc
+            before_date: "999999"
+            after_date: "000000"
+            options: []
+            
