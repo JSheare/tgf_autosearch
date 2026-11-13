@@ -1,13 +1,10 @@
 """A module containing a class that implements the application's main functionality."""
 import datetime
 import logging
-import os
 import pathlib
-import platformdirs
 from importlib.metadata import version, PackageNotFoundError
-from contextlib import contextmanager
 from tgfsearch.search import parse_search_args, program
-from typing import Any, Generator, List
+from typing import List
 
 import tgf_autosearch.config.parameters as params
 import tgf_autosearch.helpers.helper_funcs as helpers
@@ -15,26 +12,6 @@ from tgf_autosearch.helpers.days_record import DaysRecord
 from tgf_autosearch.startup.config_funcs import read_config
 from tgf_autosearch.startup.configure_logging import configure_logging
 from tgf_autosearch.validation.config_validation import SearcherModel
-
-
-@contextmanager
-def pid_manager() -> Generator[None, Any, None]:
-    """A generator responsible for creating and deleting the application's pid file."""
-    # Making the file
-    directory = platformdirs.user_runtime_path(params.APPLICATION_NAME, appauthor=False)
-    if not directory.is_dir():
-        directory.mkdir(parents=True)
-
-    with open(f'{directory}/{params.PID_FILE}', 'w') as file:
-        file.write(str(os.getpid()))
-
-    yield
-
-    # Deleting the file
-    try:
-        os.remove(f'{directory}/{params.PID_FILE}')
-    except Exception:
-        pass
 
 
 class Searcher:
@@ -142,31 +119,30 @@ class Searcher:
 
     def main(self):
         """A function that implements the application's main functionality."""
-        with pid_manager():
-            configure_logging(self._config.log_level)
+        configure_logging(self._config.log_level)
 
-            app_version = None
-            try:
-                app_version = version(params.APPLICATION_NAME)
-            except PackageNotFoundError:
-                pass
+        app_version = None
+        try:
+            app_version = version(params.APPLICATION_NAME)
+        except PackageNotFoundError:
+            pass
 
-            if app_version is not None:
-                self._logger.info(f'({params.APPLICATION_NAME} v{app_version}) Starting new run.')
-            else:
-                self._logger.info('Starting new run.')
+        if app_version is not None:
+            self._logger.info(f'({params.APPLICATION_NAME} v{app_version}) Starting new run.')
+        else:
+            self._logger.info('Starting new run.')
 
-            # Main autosearch logic. Loop through each instrument's searches and execute them one by one
-            try:
-                for instrument in self._config.searches:
-                    for search in self._config.searches[instrument]:
-                        config = self._config.searches[instrument][search]
-                        day_list = self._get_day_list(instrument, config.import_loc, config.before_date,
-                                                      config.after_date)
-                        for day in day_list:
-                            self._search_day(day, instrument, config.import_loc, config.export_loc, config.options)
+        # Main autosearch logic. Loop through each instrument's searches and execute them one by one
+        try:
+            for instrument in self._config.searches:
+                for search in self._config.searches[instrument]:
+                    config = self._config.searches[instrument][search]
+                    day_list = self._get_day_list(instrument, config.import_loc, config.before_date,
+                                                  config.after_date)
+                    for day in day_list:
+                        self._search_day(day, instrument, config.import_loc, config.export_loc, config.options)
 
-            except Exception:
-                self._logger.debug('Encountered a critical exception:')
+        except Exception:
+            self._logger.debug('Encountered a critical exception:')
 
-            self._logger.info('Run concluded.')
+        self._logger.info('Run concluded.')

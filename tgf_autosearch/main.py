@@ -1,14 +1,37 @@
 """A module containing the program that automatically runs searches on unexamined data."""
 import argparse
+import os
 import platformdirs
 import psutil
 import pydantic
 import yaml
+from contextlib import contextmanager
+from typing import Any, Generator
 
 import tgf_autosearch.config.parameters as params
 from tgf_autosearch.searcher import Searcher
 from tgf_autosearch.startup.config_funcs import read_config
 from tgf_autosearch.validation.config_validation import SearcherModel
+
+
+@contextmanager
+def pid_manager() -> Generator[None, Any, None]:
+    """A generator responsible for creating and deleting the application's pid file."""
+    # Making the file
+    directory = platformdirs.user_runtime_path(params.APPLICATION_NAME, appauthor=False)
+    if not directory.is_dir():
+        directory.mkdir(parents=True)
+
+    with open(f'{directory}/{params.PID_FILE}', 'w') as file:
+        file.write(str(os.getpid()))
+
+    yield
+
+    # Deleting the file
+    try:
+        os.remove(f'{directory}/{params.PID_FILE}')
+    except Exception:
+        pass
 
 
 def running_pid() -> int:
@@ -75,7 +98,8 @@ def main() -> None:
             print(f'{type(ex).__name__}: {ex}')
             return
 
-        searcher.main()
+        with pid_manager():
+            searcher.main()
 
 
 if __name__ == '__main__':
