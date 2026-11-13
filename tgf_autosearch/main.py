@@ -90,7 +90,7 @@ def main() -> None:
         try:
             searcher = Searcher()
         except (pydantic.ValidationError, yaml.YAMLError):
-            print(f'Encountered error(s) when parsing and/or validating config file. Use --test_config flag for '
+            print(f'Encountered error(s) when parsing and/or validating config file. Use --test-config flag for '
                   f'details.')
             return
         except Exception as ex:
